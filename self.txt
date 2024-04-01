@@ -1,0 +1,663 @@
+
+    ctrl+shift + `  => new terminal
+
+
+
+
+
+
+
+
+nodejs is to create server side web applications
+
+nodejs used for API, so we can connect same database with mobile App,web app
+we cannot connect javascript with database
+but we can connect nodejs with database
+ 
+nodejs run on server side & javascript run on browser
+
+client and server side => 
+browser -> request & server-> response
+
+developer make API with Nodejs. so, we can connect Server with client
+node can make API for web,android,IOS
+node can also make Websites
+
+web App    => request  => server  => database/file server
+           <= response <= server  <=
+mobile App =>  (node) => 
+
+cmd => node -v
+    => npm -v
+    => node
+
+nodejs is run time envirnment which runs on javascript code with v8 engines
+
+** console.log of javascript & nodejs are same ..???
+=> no, not same
+   console.log of javascript code is used for printing statement which needs browser . it only work o browser
+   but console.log() of nodejs is its own module of nodejs. 
+       node run time env is downloaded all modules.
+       no need to have browser. so console.log() of nodejs is run on terminal also
+
+console.log()   => print simple msg on console
+console.error() =>print error msg
+     console.error(new Error('Hell! This is a wrong method.'));  
+console.warn() =>  function is used to display warning message on console.
+     const name = 'John';  
+     console.warn(`Don't mess with me ${name}! Don't mess with me!`);   
+
+ 
+
+** == & === difference in js ?
+   ==  -> compare value of two variables & ignore data types after performing type conversion 
+   === -> compares the values of two variables & data types also without performing type conversion. 
+
+--------------------------------------------------------------
+import and exports are not same in javascripts & nodejs
+in js => import {x} from './app.js'
+
+in nodejs ====> 
+                module.exports={}
+     import=>   require('')
+app.js => 
+const app=require('./app')
+
+const arr=[7,8,6,7,9,3,2,45,5];
+// console.log(arr[5]);
+console.log(app);
+console.log(app.x);
+console.log(app.y);
+console.log(app.z);
+
+index.js =>
+   module.exports={
+    x:10,
+    y:80,
+    z:90
+   }
+----------------------------------------------
+filter() ==>  traverse array 
+
+filter() method creates a new array filled with elements that pass a test provided by a function.
+The filter() method does not execute the function for empty elements.
+The filter() method does not change the original array.
+------------------------------------------------
+core modules : built in  modules => integral part of nodejs platform without install any external packages
+  ex:  console,htp,fs,os,https,path,url,readline,events,domain,dns,buffer(to handle binary data).
+
+global module : no need to import manually 
+non global module : module which is need to import manually
+
+ const fs=require("fs");    // non global module
+ console.log("by aditya");  // global module
+
+ fs.writeFileSync("hello.txt","learn nodejs")
+
+ console.log("--> ",__dirname);
+ console.log("--> ",__filename);
+
+ const fs=require("fs").writeFileSync; 
+ fs("abc.html","<h1>hello</h1>")
+
+---------------------------------------------------------
+make basic server on browser ==> 
+  1. import http module => 
+     http module handle request & response in  nodejs
+     const http=require("http")
+
+  2. create Server and listen on port 
+     http.createServer().listen(4500);
+
+function vs arrow function ==>
+
+function sayHello(name) {          
+  return 'Hello ' + name           
+}                                  
+
+const sayHello = (name) => {
+  return 'Hello ' + name
+}
+or 
+const sayHello = (name) => 'Hello ' + name
+           ===========================
+const http=require("http");
+
+function datacontrol(req,resp){
+  resp.write("<h1>welcome to nodejs ,callback function</h1>server on http://localhost:3000");
+  resp.end();
+}
+
+http.createServer(datacontrol).listen(3000);
+-------------------------------------------------------------------------
+              package.json
+
+package. json file contains descriptive and functional metadata about a project, such as a name, version, and dependencies
+Package.json file is used to identify your project and understand how to handle the project's dependencies.
+package. json file that enables npm to start your project, run scripts, install dependencies, publish to the NPM registry, and many other useful tasks.
+
+
+store details about projects coding related like dependencies,version,name,repository, command use , packages used 
+node -v
+node filename.js
+npm init     =>  set new npm package
+npm i colors =>  add one dependencies package colors
+
+              package-lock.json
+store details about packages
+
+** Is nodejs singleThreaded or multiThreaded ...??
+->   Node. js web server is single threaded. at a time run one command 
+     when there are blocking I/O operations, Event loop delegates it to the Thread pool, means offloading operations to the system Kernel (kernel supports multi threading).
+nodejs is : 
+singleThreaed
+asynchronous event-driven javascript
+
+nodejs is single threaded and then so fast because nodejs is non blocking I/O model.
+NodeJS utilizes a single asynchronous thread to handle all requests made.
+This reduces the CPU workload and avoids HTTP congestion and takes up less memory as well.  
+
+# if node_modules folder is deleted then simply run command npm install => automatically project's all dependencies downloaded
+# load on github repo => make .gitignore file => all files load except node_moldules on github
+    
+-----------------------------------------------------------------------------------
+                       Nodemon package => time saving module
+
+Nodemon is a command-line tool that helps with the speedy development of Node. js applications
+monitor project directory and automatically restarts node application when it detects any changes
+no need to manually handlestop/start
+ 
+cmd =>
+npm i nodemon -g  => globally install no need to install evey time 
+
+if not working => package.json -> 
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+}
+ terminal =>     nodemon file.js
+
+-------------------------------
+
+Nodejs is async language and single threaded
+sync  => sequentially Scripts run . wait till first script finished . one after another 
+Async => not wait to finish previous Script . run next script thats why nodejs is fast because of async language 
+
+--------------------------------
+
+make server =>
+create header and API body =>
+create API with static data => 
+put data in another file => 
+ 
+status code 
+200 ok
+201 created
+400 bad request
+401 unauthorized    invalid authentication
+403 forbidden       authentication succeeded but authenticated user doesn't have access to the resource
+404 resource not found
+500 internal Server error 
+503 service unavailable
+
+--------------data.js
+const data=[
+  {name:"Aditya",age:28},
+  {name:"cutie",age:27},
+  {name:"gopi",age:31},
+  {name:"sachin",age:34}
+
+]
+module.exports=data;
+--------------
+const http=require("http");
+
+const data=require('./data');
+
+http.createServer((req,resp)=>{
+   resp.writeHead(500,{'content-Type':'application\json'});
+   resp.write(JSON.stringify(data));
+   resp.end();
+}).listen(5000);
+
+------------------------------------------------------
+input from command line
+console.log(process);       => process is object 
+console.log(process.argv);  => property arggument vector
+
+coomand line arguments
+console.log("code by me");
+console.log(process.argv[0]);
+console.log(process.argv[1]);
+console.log(process.argv[2]);
+console.log(process.argv[0]);
+              --------------------------
+by using command line we creating file / deleting 
+ 
+const fs=require("fs");
+
+const input=process.argv;
+fs.writeFileSync(input[2],input[3])       // create  new file
+
+-> node index.js apple.txt 'this is fruit'
+-> node index.js node.html '<h1>hey welcome</h1>'nodejs>
+               --------------------------
+
+const fs=require("fs");
+
+const input=process.argv;
+
+if(input[2]=='add'){
+   fs.writeFileSync(input[3],input[4]);
+}
+else if(input[2]=='remove'){
+   fs.unlinkSync(input[3]);
+}
+else{
+   console.log('invalid input');
+}
+->   node index.js add orange.txt 'my fav color'
+->   node index.js add style.css '.class{color:blue}'
+->   node index.js remove orange.txt 'my fav color'
+->   node index.js weder orange.txt 'my fav color'  => invalid input
+
+           -------------------------------------------
+    show file list
+make files in folder->
+use path module  ->
+get file names and print ->
+
+const path=require("path");
+ 
+
+ const fs=require("fs");
+ const path=require("path");
+ const dirPath=path.join(__dirname,'files');
+
+ for(i=0;i<5;i++)
+ {
+    fs.writeFileSync(dirPath+"/hello"+(i)+".txt","simple text file"+(i)+" ")
+ }
+
+fs.writeFileSync(dirPath+'apple.txt','this is apple file')
+
+             -------------------------------
+const fs=require("fs");     
+const path=require("path");                 -> use path modules
+const dirPath=path.join(__dirname,'files');    ->  __dirname
+fs.readdir(dirPath,(err,files)=>{
+  // console.warn(files); => get files in array
+  
+  files.forEach((item)=>{
+    console.log(item);
+  })                                         -> get file name and prints
+})
+                           ---------------------------------
+       CRUD with file system
+
+create file
+Read file
+Update file
+Delete file
+rename file
+
+const fs=require("fs"); 
+fs.writeFileSync('apple.txt','this is simple text file');    => import file in root folder
+
+
+const fs=require("fs"); // => file module import
+  const path = require("path"); 
+  const dirPath=path.join(__dirname,'CRUD')
+  console.log('path is '+dirPath);
+  const filePath=`${dirPath}/apple.txt`;
+
+   fs.writeFileSync(filePath,'this is simple text file');  => create file
+   fs.readFile(filePath,'utf-8',(err,item)=>{              => read File
+     console.log(item); 
+   })
+   
+   fs.appendFile(filePath,' & feel good !!!!!!!!!!!!',(err)=>{  => updated file
+      if(!err) { console.log("file is updated successfully..")}
+   })
+  
+   fs.rename(filePath,`${dirPath}/fruit.txt`,(err)=>{      => Rename File
+    if(!err) console.log("file is renamed")
+   })
+   
+   fs.unlinkSync(`${dirPath}/fruit.txt`);                  => Deleted file
+
+-----------------------------------------------------------------
+**  what is buffer ...??  => temporarily memory location => getting ASCII value
+=>       
+Buffer is a way to store and manipulate binary data in Node. js.
+Binary data refers to data that consists of binary values, as opposed to text data, which consists of characters and symbols. 
+Examples of binary data include images, audio and video files, and raw data from a network.
+
+-------------------------------------------
+        Synchronous in nodejs.......?  
+=>  Synchronous operations tasks are performed one at a time
+    Sync is a single-thread, so only one operation or program will run at a time.
+    1.users => 2.Products=> 3.cities     
+ ex : =>   php        => Synchronous programming language 
+
+        Asynchronous in nodejs.......?
+=>   Asynchronous operations , second task do not wait to finish First Task 
+     Async is multiThreaded => which means operations or programs can run in parallel
+     Async is non-blocking, which means it will send multiple requests to a server.
+     programing speed improving
+     fast 
+     users  products  cities run no need to wait for any task
+
+node       => Asynchronous programming language
+javaScript => Asynchronous programming language
+
+ 
+    console.log("first");
+
+*  setTimeout function =>   take time for 2000 then execute the function
+           setTimeout(()=>{
+             console.log("middle execution")  
+           },2000)
+
+    console.log("third");
+
+=>  first
+    third       -> Async no need to wait for any function
+    middle execution
+
+-----------Drawback of Async programming language
+let a=10;
+let b=0;
+
+setTimeout(()=>{ 
+     b=20;   //modify valu of b          
+      },2000)
+console.log(a+b);
+
+=>  10  due to Async function -> direct execute console  
+
+-----------------------------------------------------------
+     ##   Handle Asynchronous Data in nodejs
+
+** What is Callbacks ?
+=> Callback is an asynchronous equivalent for a function.
+   It is called at the completion of each task.
+   In Node.js, callbacks are generally used.
+   All APIs of Node are written in a way to supports callbacks.
+For example:
+   when a function start reading file, it returns the control to execution environment immediately so that the next instruction can be executed.
+
+In Node.js, once file I/O is complete, it will call the callback function.
+So there is no blocking or wait for File I/O.
+This makes Node.js highly scalable, as it can process high number of request without waiting for any function to return result.
+
+** What are Promises? 
+=>  A promise is basically an advancement of callbacks in Node.
+   In other words, a promise is a JavaScript object which is used to handle all the asynchronous data operations. 
+   While developing an application you may encounter that you are using a lot of nested callback functions. 
+
+JavaScript is always synchronous and single-threaded that provides the event loops. The event loops enable us to queue up an activity. This activity will not happen until the loops become available after the program that queued the action has completed the execution. However, our program contains a large number of functionalities, which causes our code to be asynchronous. The Async/Await functionality is one of them. Async/Await is an extension of promises that we get as language support.
+
+JavaScript Async
+An async function is a function that is declared with the async keyword and allows the await keyword inside it. The async and await keywords allow asynchronous, promise-based behavior to be written more easily and avoid configured promise chains. The async keyword may be used with any of the methods for creating a function.
+
+JavaScript Await
+JavaScript Await function is used to wait for the promise. It could only be used inside the async block. It instructs the code to wait until the promise returns a response. It only delays the async block. Await is a simple command that instructs JavaScript to wait for an asynchronous action to complete before continuing with the feature. It's similar to a "pause until done" keyword. The await keyword is used to retrieve a value from a function where we will usually be used the then() function. Instead of calling after the asynchronous function, we'd use await to allocate a variable to the result and then use the result in the code as we will in the synchronous code.
+
+
+// let a=10;
+// let b=0;
+
+// setTimeout(()=>{
+//      b=30;
+//       },2000)
+// console.log(a+b);
+// ->     10    not updated changed value thats why we use promises
+//--------------------------------------------
+
+let a=10;
+let b=0;
+
+let waitingData=new Promise((resolve,reject)=>{
+  setTimeout(()=>{
+    resolve(30);
+     },2000)
+});
+
+waitingData.then((data)=>{
+   b=data;
+   console.log(a+b);
+});
+
+==>    not print/ updated result  until promise completed
+       ------------------------------------------------------------------------
+
+** how node js Works ..??
+                   nodejs => c + c++ + javascript
+call Stack
+event loop
+node API
+Callback Queue
+
+architecture 
+ event loop =>  process in loop -> all events are handle in loop  
+               call stack -> call node API ->creates  callback Queue -> call stack
+
+call stack must need to work always
+
+from callStack ->  calls Nodejs API -> creates Callback Queue
+ this entire process we call Event Loop. 
+
+
+# call Stack -> all function/task registered in callStack before execution start.
+              which function call first 
+main() by default present -> global function stored in CallStack
+
+# node API -> any thing which inherited from c,c++  like setTimeout,other functions stored in node API's
+            interact with two languages c & nodejs -> stored in node API's
+
+# callback Queue -> 
+from nodeAPI , priority wise function goes into callBack Queue,waiting till main() function get finished. 
+function waits in callback Queue until main () gets terminated/ finished
+once main() finished , all callback queue functions goes in call stack one by one then executes 
+
+this process continueously running until all operations are finshing up. -> event loop
+
+   // console.log("starting up");
+
+// setTimeout(()=>{
+//   console.log("2 second log")
+// },2000)
+
+// setTimeout(()=>{
+//   console.log("0 second log")
+// },0)
+
+
+// console.log("finishing up");
+
+starting
+finishing
+0 s
+2 s
+
+             -------------------------------------------------------------------------
+
+      Express Js (framework in nodejs)
+routes
+make API
+middleware
+request handle methods
+
+            npm install express
+            nodemon ex.js 
+            npm start
+
+request ----------> response
+client  <---------- server
+
+
+app.get('',(req,res)=>{
+res.send("<h1>'hello,this is home page'</h1>")
+})
+
+
+------------------------------------------------------------
+ Render HTML & JSON 
+# how HTML tags =>
+                  // about route
+app.get('/about',(req,res)=>{
+  res.send(`
+      <h1>about @ page'</h1>
+      <input type="text" placeholder = "User name"/>
+      <button>click Me</button>
+  
+      `);
+  
+# show json data =>
+  app.get('/contact',(req,res)=>{
+    res.status(
+      {
+        "name":"Aditya",
+        "phone":"8459200966",
+        "address": "hinjewadi", 
+      },
+      {
+        "name":"mule",
+        "phone":"8489200966",
+        "address": "Ahinjewadi", 
+      });
+
+# Link pages => 
+     
+       app.get('',(req,res)=>{
+res.send(`<h1>Hello,this is home page</h1>
+          <a href="/about"> GoTo AboutPage</a>
+`);
+})
+                       
+app.get('/about',(req,res)=>{
+  res.send(`
+      <h1>about @ page'</h1>
+      <input type="text" placeholder = "User name"/>
+      <button>click Me</button>
+  
+      `);
+  })
+
+query parameter=> 
+app.get('',(req,res)=>{
+  console.log("data sent by browser ==> ",req.query.name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
